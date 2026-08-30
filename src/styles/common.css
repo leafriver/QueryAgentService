@@ -1,0 +1,178 @@
+/* ============================================
+ * 主题变量定义
+ * 通过 <html data-theme="light|dark"> 切换主题。
+ * 未设置 data-theme 时，默认跟随系统偏好。
+ * ============================================ */
+
+/* ---------- Light 主题（默认） ---------- */
+:root,
+[data-theme='light'] {
+    /* 主色 */
+    --color-primary: #2563eb;
+    --color-primary-hover: #1d4ed8;
+    --color-primary-active: #1e40af;
+    --color-primary-soft: rgba(37, 99, 235, 0.12);
+
+    /* 状态色 */
+    --color-success: #16a34a;
+    --color-warning: #d97706;
+    --color-danger: #dc2626;
+    --color-info: #0891b2;
+
+    /* 背景 */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f7fa;
+    --bg-tertiary: #ebeff4;
+    --bg-hover: rgba(0, 0, 0, 0.04);
+    --bg-active: rgba(0, 0, 0, 0.08);
+    --bg-mask: rgba(0, 0, 0, 0.45);
+
+    /* 文字 */
+    --text-primary: #1f2329;
+    --text-secondary: #4b5563;
+    --text-muted: #9ca3af;
+    --text-link: var(--color-primary);
+    --text-inverse: #ffffff;
+
+    /* 边框 / 分割线 */
+    --border-color: #e5e7eb;
+    --border-color-light: #f0f2f5;
+
+    /* 阴影 */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+
+    /* 圆角 */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-full: 9999px;
+
+    /* 其它 */
+    --transition-theme: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+/* ---------- Dark 主题 ---------- */
+[data-theme='dark'] {
+    /* 主色 */
+    --color-primary: #60a5fa;
+    --color-primary-hover: #3b82f6;
+    --color-primary-active: #2563eb;
+    --color-primary-soft: rgba(96, 165, 250, 0.18);
+
+    /* 状态色 */
+    --color-success: #4ade80;
+    --color-warning: #fbbf24;
+    --color-danger: #f87171;
+    --color-info: #22d3ee;
+
+    /* 背景 */
+    --bg-primary: #16161a;
+    --bg-secondary: #1e1e24;
+    --bg-tertiary: #26262e;
+    --bg-hover: rgba(255, 255, 255, 0.06);
+    --bg-active: rgba(255, 255, 255, 0.12);
+    --bg-mask: rgba(0, 0, 0, 0.6);
+
+    /* 文字 */
+    --text-primary: #e8e8ea;
+    --text-secondary: #a3a3ad;
+    --text-muted: #6b6b76;
+    --text-link: var(--color-primary);
+    --text-inverse: #16161a;
+
+    /* 边框 / 分割线 */
+    --border-color: #303038;
+    --border-color-light: #26262e;
+
+    /* 阴影 */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- 无 data-theme 时跟随系统偏好 ---------- */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+        color-scheme: dark;
+
+        /* 主色 */
+        --color-primary: #60a5fa;
+        --color-primary-hover: #3b82f6;
+        --color-primary-active: #2563eb;
+        --color-primary-soft: rgba(96, 165, 250, 0.18);
+
+        /* 状态色 */
+        --color-success: #4ade80;
+        --color-warning: #fbbf24;
+        --color-danger: #f87171;
+        --color-info: #22d3ee;
+
+        /* 背景 */
+        --bg-primary: #16161a;
+        --bg-secondary: #1e1e24;
+        --bg-tertiary: #26262e;
+        --bg-hover: rgba(255, 255, 255, 0.06);
+        --bg-active: rgba(255, 255, 255, 0.12);
+        --bg-mask: rgba(0, 0, 0, 0.6);
+
+        /* 文字 */
+        --text-primary: #e8e8ea;
+        --text-secondary: #a3a3ad;
+        --text-muted: #6b6b76;
+        --text-link: var(--color-primary);
+        --text-inverse: #16161a;
+
+        /* 边框 / 分割线 */
+        --border-color: #303038;
+        --border-color-light: #26262e;
+
+        /* 阴影 */
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+        --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);
+    }
+}
+
+/* ============================================
+ * 基础样式
+ * ============================================ */
+/* 统一盒模型：padding/border 计入宽高，避免 min-height + padding 撑出滚动条 */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    color-scheme: light;
+}
+
+html[data-theme='dark'] {
+    color-scheme: dark;
+}
+
+body {
+    margin: 0;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    transition: var(--transition-theme);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-primary);
+}
+
+a {
+    color: var(--text-link);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-primary-hover);
+}

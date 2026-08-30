@@ -37,3 +37,12 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+# CodeBuddy 项目数据
+.codebuddy/
+
+# 临时生成的图标素材
+generated-images/
+
+# 本地素材截图
+public/Snipaste_2026-08-30_15-59-47.png

@@ -1,11 +1,54 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import NavBar from '@/components/NavBar.vue'
+import { useUserStore } from '@/stores/user'
+import type { MenuItem, NavItem } from '@/types/navbar'
+
+const route = useRoute()
+const router = useRouter()
+const userStore = useUserStore()
+
+// 认证页（登录/注册）不显示导航栏
+const showNav = computed(() => !route.meta.hideNav)
+
+const navItems: NavItem[] = [
+  { key: 'home', label: '首页', path: '/' },
+  { key: 'chat', label: '新对话', path: '/chat'},
+  { key: 'history', label: '历史记录', path: '/history'},
+]
+
+const menuItems: MenuItem[] = [
+  { key: 'profile', label: '个人信息', icon: '👤' },
+  { key: 'history', label: '历史记录', icon: '🕘' },
+  { key: 'settings', label: '设置', icon: '⚙️' },
+  { key: 'logout', label: '退出登录', icon: '🚪', divided: true, danger: true },
+]
+
+function handleMenuSelect(key: string) {
+  if (key === 'logout') {
+    userStore.logout()
+    router.push('/login')
+    return
+  }
+  // 个人信息 / 历史记录 / 设置页面尚未创建，后续接入
+  console.info('[NavBar] 菜单点击：', key)
+}
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <NavBar
+    v-if="showNav"
+    :nav-items="navItems"
+    :user="userStore.user"
+    :menu-items="menuItems"
+    @menu-select="handleMenuSelect"
+  />
+  <router-view />
 </template>
-
-<style scoped></style>
+<style>
+*{
+  margin: 0;
+  padding: 0;
+}
+</style>

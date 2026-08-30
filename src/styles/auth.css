@@ -1,0 +1,298 @@
+/* ============================================
+ * 登录 / 注册页共享样式（全局，类名前缀 .auth-）
+ * 全部使用 common.css 主题变量，自动适配 light/dark
+ * ============================================ */
+
+.auth-page {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 24px;
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+}
+
+/* 柔和光斑装饰 */
+.auth-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+}
+
+.auth-glow--one {
+  top: -120px;
+  right: -80px;
+  width: 360px;
+  height: 360px;
+  background: var(--color-primary-soft);
+}
+
+.auth-glow--two {
+  bottom: -140px;
+  left: -100px;
+  width: 400px;
+  height: 400px;
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.auth-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 400px;
+  padding: 36px 32px 28px;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  animation: auth-in 0.4s ease both;
+}
+
+@keyframes auth-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-brand {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.auth-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-inverse);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  border-radius: 14px;
+  box-shadow: 0 8px 20px var(--color-primary-soft);
+}
+
+.auth-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.auth-subtitle {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* ---------- 表单 ---------- */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-label {
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.auth-input {
+  height: 42px;
+  padding: 0 12px;
+  font-size: 14px;
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.auth-input::placeholder {
+  color: var(--text-muted);
+}
+
+.auth-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+
+.auth-input.is-error {
+  border-color: var(--color-danger);
+}
+
+.auth-input.is-error:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+.auth-error {
+  margin: 5px 0 0;
+  font-size: 12px;
+  color: var(--color-danger);
+  animation: auth-error-in 0.2s ease;
+}
+
+@keyframes auth-error-in {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-submit-error {
+  margin: 0;
+  text-align: center;
+}
+
+.auth-success {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-success);
+  text-align: center;
+  animation: auth-error-in 0.2s ease;
+}
+
+/* ---------- 提交按钮 ---------- */
+.auth-submit {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-inverse);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.auth-submit:hover:not(:disabled) {
+  filter: brightness(1.06);
+  box-shadow: 0 6px 16px var(--color-primary-soft);
+  transform: translateY(-1px);
+}
+
+.auth-submit:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.auth-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.auth-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: auth-spin 0.7s linear infinite;
+}
+
+@keyframes auth-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- 密码强度指示 ---------- */
+.strength {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.strength__bars {
+  display: flex;
+  flex: 1;
+  gap: 6px;
+}
+
+.strength__bar {
+  flex: 1;
+  height: 4px;
+  background-color: var(--bg-tertiary);
+  border-radius: 2px;
+  transition: background-color 0.25s ease;
+}
+
+.strength__bar.is-low {
+  background-color: var(--color-danger);
+}
+
+.strength__bar.is-medium {
+  background-color: var(--color-warning);
+}
+
+.strength__bar.is-high {
+  background-color: var(--color-success);
+}
+
+.strength__text {
+  min-width: 64px;
+  font-size: 12px;
+  text-align: right;
+  color: var(--text-muted);
+  transition: color 0.25s ease;
+}
+
+.strength__text.is-low {
+  color: var(--color-danger);
+}
+
+.strength__text.is-medium {
+  color: var(--color-warning);
+}
+
+.strength__text.is-high {
+  color: var(--color-success);
+}
+
+/* ---------- 底部 ---------- */
+.auth-footer {
+  margin: 22px 0 0;
+  font-size: 13px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.auth-link {
+  color: var(--color-primary);
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.auth-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
