@@ -44,5 +44,8 @@ __screenshots__/
 # 临时生成的图标素材
 generated-images/
 
+# 临时 npm 缓存
+.npm-cache/
+
 # 本地素材截图
 public/Snipaste_2026-08-30_15-59-47.png

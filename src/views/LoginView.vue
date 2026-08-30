@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useField } from '@/utils/useField'
-import { validatePassword, validateUsername } from '@/utils/validators'
+import { validateLoginIdentifier, validatePassword } from '@/utils/validators'
 
 const router = useRouter()
 const route = useRoute()
@@ -12,8 +12,13 @@ const userStore = useUserStore()
 // 注册成功后跳转登录页，预填用户名
 const prefillUsername =
   typeof route.query.username === 'string' ? route.query.username : ''
+// 被路由守卫拦截跳转时携带的回跳地址，登录成功后返回原目标页
+const redirect =
+  typeof route.query.redirect === 'string' && route.query.redirect.startsWith('/')
+    ? route.query.redirect
+    : '/'
 
-const username = useField(validateUsername, prefillUsername)
+const username = useField(validateLoginIdentifier, prefillUsername)
 const password = useField(validatePassword)
 
 const loading = ref(false)
@@ -35,7 +40,7 @@ async function handleSubmit() {
       username: username.value.trim(),
       password: password.value,
     })
-    router.push('/')
+    router.push(redirect)
   } catch (e) {
     submitError.value = (e as Error).message
   } finally {
@@ -58,14 +63,14 @@ async function handleSubmit() {
 
       <form class="auth-form" novalidate @submit.prevent="handleSubmit">
         <div class="auth-field">
-          <label class="auth-label" for="login-username">用户名</label>
+          <label class="auth-label" for="login-username">用户名 / 邮箱</label>
           <input
             id="login-username"
             v-model="username.value"
             class="auth-input"
             :class="{ 'is-error': username.showError }"
             type="text"
-            placeholder="请输入用户名"
+            placeholder="请输入用户名或邮箱"
             autocomplete="username"
             @blur="username.markTouched()"
           />

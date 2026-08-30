@@ -6,8 +6,8 @@ import { useField } from '@/utils/useField'
 import {
   checkPasswordStrength,
   validateConfirmPassword,
+  validateEmail,
   validatePassword,
-  validatePhone,
   validateUsername,
 } from '@/utils/validators'
 
@@ -15,7 +15,7 @@ const router = useRouter()
 const userStore = useUserStore()
 
 const username = useField(validateUsername)
-const phone = useField(validatePhone)
+const email = useField(validateEmail)
 const password = useField(validatePassword)
 // 确认密码：实时依赖当前密码，密码变化时一致性校验同步更新
 const confirmPassword = useField((value) => validateConfirmPassword(password.value, value))
@@ -39,7 +39,7 @@ const isSubmitting = computed(() => loading.value || Boolean(successMessage.valu
 async function handleSubmit() {
   const error =
     username.validateNow() ??
-    phone.validateNow() ??
+    email.validateNow() ??
     password.validateNow() ??
     confirmPassword.validateNow()
   if (error) return
@@ -49,7 +49,7 @@ async function handleSubmit() {
   try {
     await userStore.register({
       username: username.value.trim(),
-      phone: phone.value.trim(),
+      email: email.value.trim(),
       password: password.value,
     })
     successMessage.value = '注册成功，正在跳转到登录页…'
@@ -93,19 +93,18 @@ async function handleSubmit() {
         </div>
 
         <div class="auth-field">
-          <label class="auth-label" for="reg-phone">手机号</label>
+          <label class="auth-label" for="reg-email">邮箱</label>
           <input
-            id="reg-phone"
-            v-model="phone.value"
+            id="reg-email"
+            v-model="email.value"
             class="auth-input"
-            :class="{ 'is-error': phone.showError }"
-            type="tel"
-            maxlength="11"
-            placeholder="请输入 11 位手机号"
-            autocomplete="tel"
-            @blur="phone.markTouched()"
+            :class="{ 'is-error': email.showError }"
+            type="email"
+            placeholder="请输入邮箱，用于账号找回"
+            autocomplete="email"
+            @blur="email.markTouched()"
           />
-          <p v-if="phone.showError" class="auth-error">{{ phone.error }}</p>
+          <p v-if="email.showError" class="auth-error">{{ email.error }}</p>
         </div>
 
         <div class="auth-field">

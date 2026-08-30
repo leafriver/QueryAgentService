@@ -1,42 +1,30 @@
-# QueryAgentService
+1. 大模型接入层（核心，必做）
 
-This template should help get you started developing with Vue 3 in Vite.
+选模型：国内直连推荐 DeepSeek / Kimi / 通义千问 / 智谱（OpenAI 兼容协议），或本地 Ollama
+config.py 增加配置项：LLM_API_KEY、LLM_BASE_URL、LLM_MODEL，写进 .env，Key 只存后端
+后端加依赖：openai（官方 SDK，可直接用 AsyncOpenAI）或 httpx，加入 requirements.txt 并安装
 
-## Recommended IDE Setup
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+2. 接口改造（必做）
 
-## Recommended Browser Setup
+把 chat.py 两处 _build_mock_reply 换成真实调用
+上下文：调模型时要带上该会话的历史消息列表（user/assistant 交替），否则模型"失忆"
+流式响应：LLM 生成要数秒到数十秒，同步请求会卡死页面。需把接口改成 SSE 流式输出，前端逐字显示——这是"像 ChatGPT"的关键
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
 
-## Type Support for `.vue` Imports in TS
+3. 前端流式适配（必做）
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+api/chat.ts 已预留但需真正实现：fetch + ReadableStream 逐段读取、解析 SSE 数据块
+ChatView.vue 增加：AI 消息占位 + 逐字追加、"停止生成"按钮、生成中禁用输入
 
-## Customize configuration
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+4. 健壮性处理（必做）
 
-## Project Setup
+LLM 超时、调用失败时的兜底文案（不要整个请求挂掉）
+上下文长度控制（历史消息太多时截断，防止超 token 上限）
+system prompt 设计（如"你是 QueryAgent 智能助手…"）
 
-```sh
-npm install
-```
 
-### Compile and Hot-Reload for Development
+5. 可选增强（后期）
 
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
+界面选择模型 / 显示思考过程（reasoning 模型） / 会话标题自动生成

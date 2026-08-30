@@ -27,6 +27,22 @@ export function validatePhone(value: string): string | null {
   return null
 }
 
+/** 校验登录账号：必填，支持用户名或邮箱 */
+export function validateLoginIdentifier(value: string): string | null {
+  const v = value.trim()
+  if (!v) return '请输入用户名或邮箱'
+  if (v.length > 100) return '账号长度不能超过 100 个字符'
+  return null
+}
+
+/** 校验邮箱：必填、标准邮箱格式 */
+export function validateEmail(value: string): string | null {
+  const v = value.trim()
+  if (!v) return '请输入邮箱'
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return '邮箱格式不正确'
+  return null
+}
+
 /** 校验密码：必填、长度 6-32 */
 export function validatePassword(value: string): string | null {
   if (!value) return '请输入密码'

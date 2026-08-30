@@ -16,6 +16,8 @@ export interface NavItem {
 
 /** 登录用户信息，为 null 表示未登录 */
 export interface UserInfo {
+  /** 用户 ID */
+  id?: number
   /** 用户名 */
   name: string
   /** 头像地址，不传则使用用户名首字符 */
